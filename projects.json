@@ -1,0 +1,36 @@
+[
+  {
+    "id": "nusa-essentials",
+    "title": "NusaEssentials",
+    "description": "A Minecraft survival economy addon that adds features for better gameplay.",
+    "technologies": [
+      "JavaScript",
+      "Minecraft Bedrock",
+      "Behavior Pack"
+    ],
+    "github": "https://github.com/NusaMC/NusaEssentials",
+    "demo": "/nusa-essentials",
+    "demo_text": "Download"
+  },
+  {
+    "id": "glyph-generator",
+    "title": "Glyph Generator (x16)",
+    "description": "Glyph generator that you can customize with 16x16 resolution",
+    "technologies": [
+      "Glyph",
+      "Generator",
+      "Canvas"
+    ],
+    "demo": "/glyph-generator"
+  },
+  {
+    "id": "pixel-art",
+    "title": "Pixel Art",
+    "description": "A simple pixel art editor with adjustable grid size and PNG export.",
+    "technologies": [
+      "Pixel Art",
+      "Canvas"
+    ],
+    "demo": "/pixel-art"
+  }
+]
