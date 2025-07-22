@@ -5,7 +5,7 @@ import JSZip from "jszip";
 import { useEffect, useState } from "react";
 import { DynamicForm } from "./dynamic-form";
 import NusaEssentials from "@/lib/nusa-essentials";
-import { NusaPlugin } from "@/types/nusa-essentials";
+import { NusaPlugin } from "@/types/github";
 
 export default function NusaEssentialsForm({ dataZip, onDownload }: { dataZip: JSZip; onDownload?: () => void; }) {
   const [prefixFolder, setPrefixFolder] = useState<string>();

@@ -13,6 +13,19 @@
     "demo_text": "Download"
   },
   {
+    "id": "simpleboard",
+    "title": "SimpleBoard",
+    "description": "A Minecraft resource pack for creating sideboard.",
+    "technologies": [
+      "NusaEssentials",
+      "Minecraft Bedrock",
+      "Resource Pack"
+    ],
+    "github": "https://github.com/NusaMC/NusaEssentials",
+    "demo": "/nusa-essentials",
+    "demo_text": "Download"
+  },
+  {
     "id": "glyph-generator",
     "title": "Glyph Generator (x16)",
     "description": "Glyph generator that you can customize with 16x16 resolution",

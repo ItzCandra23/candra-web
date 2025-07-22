@@ -1,14 +1,14 @@
 "use client";
 
 import { DynamicForm } from "@/components/sections/dynamic-form";
-import NusaEssentialsForm from "@/components/sections/nusa-essentials-form";
 import { MarkdownWrapper } from "@/components/shared/markdown-wrapper";
 import { SectionTitle } from "@/components/shared/section-title";
-import NusaEssentials from "@/lib/nusa-essentials";
 import { DropdownInput } from "@/types/form";
 import ReactMarkdown from "react-markdown";
 import JSZip from "jszip";
 import { useEffect, useState } from "react";
+import SimpleBoard from "@/lib/simpleboard";
+import SimpleBoardForm from "@/components/sections/simpleboard-form";
 
 export default function NusaEssentialsPage() {
   const [data, setData] = useState<JSZip>();
@@ -26,7 +26,7 @@ export default function NusaEssentialsPage() {
   );
 
   useEffect(() => {
-    NusaEssentials.getAllAssets().then((data) => {
+    SimpleBoard.getAllAssets().then((data) => {
       setConfigVersion(
         {
           ...configVersion,
@@ -45,7 +45,7 @@ export default function NusaEssentialsPage() {
     setDisableVersion(true);
 
     const [ tag, filename, body ] = target;
-    const response = await NusaEssentials.getFile(tag, filename);
+    const response = await SimpleBoard.getFile(tag, filename);
 
     setFilename(filename);
     setContent(body);
@@ -66,8 +66,8 @@ export default function NusaEssentialsPage() {
   return (
     <div className="container mx-auto px-4 py-20">
       <SectionTitle 
-        title="Nusa Essentials" 
-        subtitle="Customize your nusa essentials addon before download"
+        title="SimpleBoard" 
+        subtitle="Customize your sideboard logo"
       />
       
       {data ? (
@@ -80,7 +80,7 @@ export default function NusaEssentialsPage() {
               </MarkdownWrapper>
             </div>
           )}
-          <NusaEssentialsForm dataZip={data} onDownload={handleDownload} />
+          <SimpleBoardForm dataZip={data} onDownload={handleDownload} />
         </>
       ) : (
         <DynamicForm config={[configVersion]} disabled={disableVersion} onSubmit={handleVersion} />

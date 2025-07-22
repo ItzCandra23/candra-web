@@ -1,9 +1,10 @@
-export interface NusaEssentialsAsset {
+export interface GithubAsset {
   name: string;
   tag?: string;
   filename: string;
   url: string;
   download_url: string;
+  body?: string;
 }
 
 export interface NusaPlugin {

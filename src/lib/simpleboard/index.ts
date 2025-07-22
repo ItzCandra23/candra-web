@@ -1,11 +1,11 @@
 "use client";
 
-import { GithubAsset, NusaPlugin } from "@/types/github";
+import { GithubAsset } from "@/types/github";
 import JSZip from "jszip";
 
-namespace NusaEssentials {
+namespace SimpleBoard {
 
-  const baseURL = "https://api.github.com/repos/NusaMC/NusaEssentials/releases";
+  const baseURL = "https://api.github.com/repos/NusaMC/SimpleBoard-RP/releases";
 
   export async function getReleases() {
     try {
@@ -45,7 +45,7 @@ namespace NusaEssentials {
 
       const name = data.name;
 
-      return data.assets.filter((v: any) => v.name.startsWith("NusaEssentials-")).map((v: any) => ({ name, filename: v.name, url: v.url, download_url: v.browser_download_url }));
+      return data.assets.filter((v: any) => v.name.startsWith("SimpleBoard-")).map((v: any) => ({ name, filename: v.name, url: v.url, download_url: v.browser_download_url }));
     } catch(err) {
       return undefined;
     }
@@ -95,7 +95,7 @@ namespace NusaEssentials {
       let result: GithubAsset[] = [];
 
       for (const release of data) {
-        const assets: GithubAsset[] = release.assets.filter(v => v.name.startsWith("NusaEssentials-")).map(v => ({ url: v.url, name: release.name, tag: release.tag_name, filename: v.name, download_url: v.browser_download_url, body: release.body }));
+        const assets: GithubAsset[] = release.assets.filter(v => v.name.startsWith("SimpleBoard-")).map(v => ({ url: v.url, name: release.name, tag: release.tag_name, filename: v.name, download_url: v.browser_download_url, body: release.body }));
 
         result.push(...assets);
       }
@@ -113,7 +113,7 @@ namespace NusaEssentials {
         filename,
       });
 
-      const response = await fetch("/nusa-essentials/download?" + urlParams.toString());
+      const response = await fetch("/simpleboard/download?" + urlParams.toString());
       if (!response.ok) return undefined;
 
       const zipData = await response.arrayBuffer();
@@ -122,20 +122,6 @@ namespace NusaEssentials {
       return zip;
     } catch(err) { return undefined; }
   }
-
-  export async function getPlugins(): Promise<NusaPlugin[]> {
-    const url = "https://raw.githubusercontent.com/ItzCandra23/candra-web/main/nusa-essentials/plugins.json";
-
-    try {
-      const response = await fetch(url);
-      if (!response.ok) return [];
-
-      const data = await response.json();
-      return data;
-    } catch(err) {
-      return [];
-    }
-  }
 }
 
-export default NusaEssentials;
+export default SimpleBoard;

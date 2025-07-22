@@ -4,7 +4,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Switch } from "@/components/ui/switch";
 import {
   Select,
   SelectContent,
@@ -48,8 +47,6 @@ export function FormRenderer({ config, values, onChange }: FormRendererProps) {
         if (defaultOption) {
           onChange(input.id, defaultOption.value || defaultOption.id);
         }
-      } else if (input.type === "toggle" && values[input.id] === undefined) {
-        onChange(input.id, input.defaultValue || false);
       } else if (input.type === "group") {
         if (input.first.type === "dropdown" && values[input.first.id] === undefined) {
           const defaultOption = input.first.options.find(opt => opt.default);
@@ -62,12 +59,6 @@ export function FormRenderer({ config, values, onChange }: FormRendererProps) {
           if (defaultOption) {
             onChange(input.second.id, defaultOption.value || defaultOption.id);
           }
-        }
-        if (input.first.type === "toggle" && values[input.first.id] === undefined) {
-          onChange(input.first.id, input.first.defaultValue || false);
-        }
-        if (input.second.type === "toggle" && values[input.second.id] === undefined) {
-          onChange(input.second.id, input.second.defaultValue || false);
         }
       }
     });
@@ -128,23 +119,6 @@ export function FormRenderer({ config, values, onChange }: FormRendererProps) {
               onChange={(e) => onChange(input.id, e.target.value)}
               required={input.require}
             />
-          </div>
-        );
-
-      case "toggle":
-        return (
-          <div key={input.id} className="space-y-2">
-            <div className="flex items-center space-x-3">
-              <Switch
-                id={input.id}
-                checked={values[input.id] || false}
-                onCheckedChange={(checked) => onChange(input.id, checked)}
-              />
-              <Label htmlFor={input.id}>
-                {input.name}
-                {input.require && <span className="text-destructive ml-1">*</span>}
-              </Label>
-            </div>
           </div>
         );
 
@@ -378,7 +352,7 @@ export function FormRenderer({ config, values, onChange }: FormRendererProps) {
 
       case "group":
         return (
-          <div key={`${input.first.id}-${input.second.id}`} className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+          <div key={`${input.first.id}-${input.second.id}`} className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {renderInput(input.first)}
             {renderInput(input.second)}
           </div>

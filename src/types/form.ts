@@ -81,6 +81,14 @@ export interface DropdownInput {
   options: DropdownOption[];
 }
 
+export interface ToggleInput {
+  require?: boolean;
+  id: string;
+  type: "toggle";
+  name: string;
+  defaultValue?: boolean;
+}
+
 export interface ImageInput {
   require?: boolean;
   id: string;
@@ -99,7 +107,7 @@ export interface FileInput {
   multiple?: boolean;
 }
 
-export type GroupType = TextInput | NumberInput | DropdownInput;
+export type GroupType = TextInput | NumberInput | DropdownInput | ToggleInput;
 
 export interface GroupInput {
   type: "group";
@@ -107,6 +115,6 @@ export interface GroupInput {
   second: GroupType;
 }
 
-export type InputType = GroupInput | TextInput | TextAreaInput | NumberInput | CheckBoxInput | CheckListInput | DropdownInput | ImageInput | FileInput;
+export type InputType = GroupInput | TextInput | TextAreaInput | NumberInput | CheckBoxInput | CheckListInput | DropdownInput | ToggleInput | ImageInput | FileInput;
 
 export type JsonForm = InputType[];
