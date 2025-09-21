@@ -50,7 +50,7 @@ export default function SimpleBoardForm({ dataZip, onDownload }: { dataZip: JSZi
       dataZip.file(path, newManifest);
     }
 
-    if (manifest && e.hasOwnProperty("random-uuid")) {
+    if (manifest && e.hasOwnProperty("random-uuid") && e["random-uuid"]) {
       const path = (prefixFolder ? (prefixFolder + "/") : "") + "manifest.json";
 
       const newUUID = uuidv4()

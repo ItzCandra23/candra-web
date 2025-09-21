@@ -16,7 +16,7 @@ import { Card, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ImageIcon, FileIcon, ExternalLink } from "lucide-react";
 import type { JsonForm, InputType } from "@/types/form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface FormRendererProps {
   config: JsonForm;
@@ -25,6 +25,7 @@ interface FormRendererProps {
 }
 
 export function FormRenderer({ config, values, onChange }: FormRendererProps) {
+  const [isDragOver, setDragOver] = useState<boolean>(false);
   useEffect(() => {
     config.forEach((input) => {
       if (input.type === "checkbox" && values[input.id] === undefined) {
@@ -285,14 +286,34 @@ export function FormRenderer({ config, values, onChange }: FormRendererProps) {
       case "image":
         return (
           <div key={input.id} className="space-y-2">
-            <Label htmlFor={input.id}>
+            <Label 
+            htmlFor={input.id}
+            >
               {input.name}
               {input.require && <span className="text-destructive ml-1">*</span>}
             </Label>
             <div className="flex items-center justify-center w-full">
               <label
                 htmlFor={input.id}
-                className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-muted/50 hover:bg-muted"
+                className={"flex flex-col items-center justify-center w-full h-32 border-2 rounded-lg cursor-pointer hover:bg-muted" + (isDragOver ? " border-primary bg-primary/5" : " border-dashed bg-muted/50")}
+                onDragOver={(e) => {
+                  e.preventDefault();
+                  setDragOver(true);
+                }}
+                onDragEnter={(e) => {
+                  e.preventDefault();
+                  setDragOver(true);
+                }}
+                onDragLeave={(e) => {
+                  e.preventDefault();
+                  setDragOver(false);
+                }}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  setDragOver(false);
+                  const files = e.dataTransfer.files;
+                  onChange(input.id, input.multiple ? files : files[0])
+                }}
               >
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
                   <ImageIcon className="w-8 h-8 mb-2 text-muted-foreground" />

@@ -13,6 +13,19 @@
     "demo_text": "Download"
   },
   {
+    "id": "customnpc",
+    "title": "CustomNPC",
+    "description": "A Minecraft resource pack for creating sideboard.",
+    "technologies": [
+      "NPC",
+      "Minecraft Bedrock",
+      "Resource Pack"
+    ],
+    "github": "https://github.com/ItzCandra23/CustomNPC",
+    "demo": "/customnpc",
+    "demo_text": "Download"
+  },
+  {
     "id": "simpleboard",
     "title": "SimpleBoard",
     "description": "A Minecraft resource pack for creating sideboard.",

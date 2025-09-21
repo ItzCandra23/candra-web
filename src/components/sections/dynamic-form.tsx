@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { JsonForm } from "@/types/form";
 
-export function DynamicForm({ config, submitText, disabled, onSubmit }: { config: JsonForm; submitText?: string; disabled?: boolean; onSubmit?: (data: Record<string, any>) => void; }) {
+export function DynamicForm({ config, submitText, disabled, onChange, onSubmit }: { config: JsonForm; submitText?: string; disabled?: boolean; onChange?: (data: Record<string, any>) => void; onSubmit?: (data: Record<string, any>) => void; }) {
   const [formData, setFormData] = useState<Record<string, any>>({});
   const [submitted, setSubmitted] = useState(false);
 
@@ -21,6 +21,7 @@ export function DynamicForm({ config, submitText, disabled, onSubmit }: { config
       ...prev,
       [name]: value
     }));
+    onChange && onChange(formData);
   };
 
   return (

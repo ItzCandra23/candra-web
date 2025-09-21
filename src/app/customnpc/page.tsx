@@ -7,10 +7,10 @@ import { DropdownInput } from "@/types/form";
 import ReactMarkdown from "react-markdown";
 import JSZip from "jszip";
 import { useEffect, useState } from "react";
-import SimpleBoard from "@/lib/simpleboard";
-import SimpleBoardForm from "@/components/sections/simpleboard-form";
+import CustomNPC from "@/lib/customnpc";
+import CustomNPCForm from "@/components/sections/customnpc-form";
 
-export default function SimpleBoardPage() {
+export default function CustomNPCPage() {
   const [data, setData] = useState<JSZip>();
   const [filename, setFilename] = useState<string>();
   const [content, setContent] = useState<string>();
@@ -26,7 +26,7 @@ export default function SimpleBoardPage() {
   );
 
   useEffect(() => {
-    SimpleBoard.getAllAssets().then((data) => {
+    CustomNPC.getAllAssets().then((data) => {
       setConfigVersion(
         {
           ...configVersion,
@@ -45,7 +45,7 @@ export default function SimpleBoardPage() {
     setDisableVersion(true);
 
     const [ tag, filename, body ] = target;
-    const response = await SimpleBoard.getFile(tag, filename);
+    const response = await CustomNPC.getFile(tag, filename);
 
     setFilename(filename);
     setContent(body);
@@ -80,7 +80,7 @@ export default function SimpleBoardPage() {
               </MarkdownWrapper>
             </div>
           )}
-          <SimpleBoardForm dataZip={data} onDownload={handleDownload} />
+          <CustomNPCForm dataZip={data} onDownload={handleDownload} />
         </>
       ) : (
         <DynamicForm config={[configVersion]} disabled={disableVersion} onSubmit={handleVersion} />
