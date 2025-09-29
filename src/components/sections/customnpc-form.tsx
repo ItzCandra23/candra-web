@@ -3,12 +3,10 @@
 import JSZip from "jszip";
 import { useEffect, useState, useRef } from "react";
 import { X, ChevronDown, ChevronUp } from "lucide-react";
-import { DynamicForm } from "./dynamic-form";
 import { v4 as uuidv4 } from "uuid";
 import { FormRenderer } from "../shared/form-renderer";
 import { Button } from "../ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
-import { Label } from "../ui/label";
 
 async function isRealImageClient(file: File): Promise<boolean> {
   if (!file) return false;

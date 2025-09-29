@@ -7,10 +7,10 @@ import { DropdownInput } from "@/types/form";
 import ReactMarkdown from "react-markdown";
 import JSZip from "jszip";
 import { useEffect, useState } from "react";
-import CustomNPC from "@/lib/customnpc";
-import CustomNPCForm from "@/components/sections/customnpc-form";
+import TapperNPC from "@/lib/tappernpc";
+import TapperNPCForm from "@/components/sections/tappernpc-form";
 
-export default function CustomNPCPage() {
+export default function TapperNPCPage() {
   const [data, setData] = useState<JSZip>();
   const [filename, setFilename] = useState<string>();
   const [content, setContent] = useState<string>();
@@ -26,7 +26,7 @@ export default function CustomNPCPage() {
   );
 
   useEffect(() => {
-    CustomNPC.getAllAssets().then((data) => {
+    TapperNPC.getAllAssets().then((data) => {
       setConfigVersion(
         {
           ...configVersion,
@@ -45,7 +45,7 @@ export default function CustomNPCPage() {
     setDisableVersion(true);
 
     const [ tag, filename, body ] = target;
-    const response = await CustomNPC.getFile(tag, filename);
+    const response = await TapperNPC.getFile(tag, filename);
 
     setFilename(filename);
     setContent(body);
@@ -66,8 +66,8 @@ export default function CustomNPCPage() {
   return (
     <div className="container mx-auto px-4 py-20">
       <SectionTitle 
-        title="CustomNPC" 
-        subtitle="Customize your npc's skins"
+        title="TapperNPC" 
+        subtitle="Adds new customizable npc"
       />
       
       {data ? (
@@ -80,7 +80,7 @@ export default function CustomNPCPage() {
               </MarkdownWrapper>
             </div>
           )}
-          <CustomNPCForm dataZip={data} onDownload={handleDownload} />
+          <TapperNPCForm dataZip={data} onDownload={handleDownload} />
         </>
       ) : (
         <DynamicForm config={[configVersion]} disabled={disableVersion} onSubmit={handleVersion} />

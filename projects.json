@@ -13,19 +13,6 @@
     "demo_text": "Download"
   },
   {
-    "id": "customnpc",
-    "title": "CustomNPC",
-    "description": "A Minecraft resource pack for creating sideboard.",
-    "technologies": [
-      "NPC",
-      "Minecraft Bedrock",
-      "Resource Pack"
-    ],
-    "github": "https://github.com/ItzCandra23/CustomNPC",
-    "demo": "/customnpc",
-    "demo_text": "Download"
-  },
-  {
     "id": "simpleboard",
     "title": "SimpleBoard",
     "description": "A Minecraft resource pack for creating sideboard.",
@@ -34,8 +21,35 @@
       "Minecraft Bedrock",
       "Resource Pack"
     ],
-    "github": "https://github.com/NusaMC/NusaEssentials",
+    "github": "https://github.com/NusaMC/SimpleBoard-RP",
     "demo": "/simpleboard",
+    "demo_text": "Download"
+  },
+  {
+    "id": "tappernpc",
+    "title": "TapperNPC",
+    "description": "Adds new NPCs which run commands when players interact with them.",
+    "technologies": [
+      "NPC",
+      "Minecraft Bedrock",
+      "Behavior Pack",
+      "Resource Pack"
+    ],
+    "github": "https://github.com/ItzCandra23/TapperNPC",
+    "demo": "/tappernpc",
+    "demo_text": "Download"
+  },
+  {
+    "id": "customnpc",
+    "title": "CustomNPC",
+    "description": "A Minecraft resource pack for add more skins to minecraft npc.",
+    "technologies": [
+      "NPC",
+      "Minecraft Bedrock",
+      "Resource Pack"
+    ],
+    "github": "https://github.com/ItzCandra23/CustomNPC",
+    "demo": "/customnpc",
     "demo_text": "Download"
   },
   {

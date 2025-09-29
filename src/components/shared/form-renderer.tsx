@@ -311,7 +311,7 @@ export function FormRenderer({ config, values, onChange }: FormRendererProps) {
                 onDrop={(e) => {
                   e.preventDefault();
                   setDragOver(false);
-                  const files = e.dataTransfer.files;
+                  const files = Array.from(e.dataTransfer.files || []);
                   onChange(input.id, input.multiple ? files : files[0])
                 }}
               >
