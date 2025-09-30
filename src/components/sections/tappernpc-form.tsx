@@ -141,9 +141,9 @@ export default function TapperNPCForm({ dataZip, onDownload }: { dataZip: JSZip;
 
       const current_version: string|undefined = version ? version.toString().replaceAll(",", ".") : undefined;
       
-      let skinsData: Record<string, string> = skins_data ? JSON.parse(skins_data.slice(skins_data.indexOf("{"), skins_data.lastIndexOf("}") + 1)) : {};
+      let skinsData: Record<string, string> = skins_data ? JSON.parse(skins_data.slice(skins_data.indexOf("{"), skins_data.lastIndexOf("}") + 1).replace(/,\s*}/, "}")) : {};
 
-      let capesData: Record<string, string> = capes_data ? JSON.parse(capes_data.slice(capes_data.indexOf("{"), capes_data.lastIndexOf("}") + 1)) : {};
+      let capesData: Record<string, string> = capes_data ? JSON.parse(capes_data.slice(capes_data.indexOf("{"), capes_data.lastIndexOf("}") + 1).replace(/,\s*}/, "}")) : {};
       
       if (current_version === "1.0.0") {
         skinsData = {
