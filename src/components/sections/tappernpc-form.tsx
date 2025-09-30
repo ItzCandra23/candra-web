@@ -32,8 +32,10 @@ export default function TapperNPCForm({ dataZip, onDownload }: { dataZip: JSZip;
   const [prefixFolder, setPrefixFolder] = useState<string>();
   const [hasSubmit, setHasSubmit] = useState<boolean>(false);
 
-  // const [skins_data, set_skins_data] = useState<string>();
-  // const [capes_data, set_capes_data] = useState<string>();
+  const [version, set_version] = useState<[number, number, number] | string>();
+
+  const [skins_data, set_skins_data] = useState<string>();
+  const [capes_data, set_capes_data] = useState<string>();
 
   const [entity_data, set_entity_data] = useState<string>();
   const [entity_textures, set_entity_textures] = useState<string>();
@@ -59,6 +61,16 @@ export default function TapperNPCForm({ dataZip, onDownload }: { dataZip: JSZip;
       if (filepath.startsWith("TapperNPC-RP/textures/entity/tappernpc")) {
         dataZip.remove(rawpath);
       }
+      if (filepath === "TapperNPC-BP/scripts/skins.js") {
+        const rawfile = await file.async("text");
+
+        set_skins_data(rawfile);
+      }
+      if (filepath === "TapperNPC-BP/scripts/capes.js") {
+        const rawfile = await file.async("text");
+
+        set_capes_data(rawfile);
+      }
       if (filepath === "TapperNPC-BP/entities/dummy.json") {
         const rawfile = await file.async("text");
 
@@ -78,6 +90,10 @@ export default function TapperNPCForm({ dataZip, onDownload }: { dataZip: JSZip;
         const rawfile = await file.async("text");
 
         set_manifest_bp(rawfile);
+
+        try {
+          set_version(JSON.parse(rawfile).header.version);
+        } catch(err) {}
       }
       if (filepath === "TapperNPC-RP/manifest.json") {
         const rawfile = await file.async("text");
@@ -109,11 +125,11 @@ export default function TapperNPCForm({ dataZip, onDownload }: { dataZip: JSZip;
     }
 
     if (manifest_bp && manifest_rp && data.hasOwnProperty("random-uuid") && data["random-uuid"]) {
+      const uuid_bp = JSON.stringify(uuidv4());
       const uuid_rp = JSON.stringify(uuidv4());
-      const newUUID = uuidv4();
 
-      newManifestBP = newManifestBP.replace("\"127ce913-7129-477a-b9a1-260f5bbe5415\"", JSON.stringify(newUUID)).replace("\"e2f9dbe0-cdff-49eb-945a-e0732ed175a8\"", uuid_rp);
-      newManifestRP = newManifestRP.replace("\"e2f9dbe0-cdff-49eb-945a-e0732ed175a8\"", uuid_rp);
+      newManifestBP = newManifestBP.replace("\"127ce913-7129-477a-b9a1-260f5bbe5415\"", uuid_bp).replace("\"e2f9dbe0-cdff-49eb-945a-e0732ed175a8\"", uuid_rp);
+      newManifestRP = newManifestRP.replace("\"127ce913-7129-477a-b9a1-260f5bbe5415\"", uuid_bp).replace("\"e2f9dbe0-cdff-49eb-945a-e0732ed175a8\"", uuid_rp);
     }
 
     if (newManifestBP && newManifestRP) {
@@ -122,79 +138,88 @@ export default function TapperNPCForm({ dataZip, onDownload }: { dataZip: JSZip;
     }
 
     if (new_entity_data && new_entity_textures && new_render_controllers) {
+
+      const current_version: string|undefined = version ? version.toString().replaceAll(",", ".") : undefined;
       
-      let skinsData: Record<string, string> = {
-        "skin_steve": "Steve",
-        "skin_alex": "Alex",
-      };
-      let capesData: Record<string, string> = {
-        "cape_none": "None",
-      };
+      let skinsData: Record<string, string> = skins_data ? JSON.parse(skins_data.slice(skins_data.indexOf("{"), skins_data.lastIndexOf("}") + 1)) : {};
+
+      let capesData: Record<string, string> = capes_data ? JSON.parse(capes_data.slice(capes_data.indexOf("{"), capes_data.lastIndexOf("}") + 1)) : {};
       
-      new_entity_data["minecraft:entity"].component_groups = {
-        "model_wide": {
-          "minecraft:variant": {
-            "value": 0
-          }
-        },
-        "model_slim": {
-          "minecraft:variant": {
-            "value": 1
-          }
-        },
-        "cape_none": {
-          "minecraft:mark_variant": {
-            "value": 0
-          }
-        },
-        "skin_steve": {
-          "minecraft:skin_id": {
-            "value": 0
-          }
-        },
-        "skin_alex": {
-          "minecraft:skin_id": {
-            "value": 1
-          }
-        },
-      };
+      if (current_version === "1.0.0") {
+        skinsData = {
+          "skin_steve": "Steve",
+          "skin_alex": "Alex",
+        };
 
-      new_entity_data["minecraft:entity"].events = {
-        "model_wide": {
-          "add": { "component_groups": [ "model_wide" ] }
-        },
-        "model_slim": {
-          "add": { "component_groups": [ "model_slim" ] }
-        },
-        "cape_none": {
-          "add": { "component_groups": [ "cape_none" ] }
-        },
-        "skin_steve": {
-          "add": { "component_groups": [ "skin_steve" ] }
-        },
-        "skin_alex": {
-          "add": { "component_groups": [ "skin_alex" ] }
-        },
-      };
+        capesData = {
+          "cape_none": "None",
+        };
 
-      new_entity_textures["minecraft:client_entity"].description.textures = {
-        "cape_none": "textures/entity/cape_invisible",
-        "skin_steve": "textures/entity/steve",
-        "skin_alex": "textures/entity/alex",
-      };
+        new_entity_data["minecraft:entity"].component_groups = {
+          "model_wide": {
+            "minecraft:variant": {
+              "value": 0
+            }
+          },
+          "model_slim": {
+            "minecraft:variant": {
+              "value": 1
+            }
+          },
+          "cape_none": {
+            "minecraft:mark_variant": {
+              "value": 0
+            }
+          },
+          "skin_steve": {
+            "minecraft:skin_id": {
+              "value": 0
+            }
+          },
+          "skin_alex": {
+            "minecraft:skin_id": {
+              "value": 1
+            }
+          },
+        };
 
-      new_render_controllers.render_controllers["controller.render.dummy.cape"].arrays.textures["Array.capes"] = [
-        "Texture.cape_none",
-      ];
+        new_entity_data["minecraft:entity"].events = {
+          "model_wide": {
+            "add": { "component_groups": [ "model_wide" ] }
+          },
+          "model_slim": {
+            "add": { "component_groups": [ "model_slim" ] }
+          },
+          "cape_none": {
+            "add": { "component_groups": [ "cape_none" ] }
+          },
+          "skin_steve": {
+            "add": { "component_groups": [ "skin_steve" ] }
+          },
+          "skin_alex": {
+            "add": { "component_groups": [ "skin_alex" ] }
+          },
+        };
 
-      new_render_controllers.render_controllers["controller.render.dummy"].arrays.textures["Array.skins"] = [
-        "Texture.skin_steve",
-        "Texture.skin_alex",
-      ];
-      
-      new_render_controllers.render_controllers["controller.render.locator"].textures = [
-        "Texture.skin_steve",
-      ];
+        new_entity_textures["minecraft:client_entity"].description.textures = {
+          "cape_none": "textures/entity/cape_invisible",
+          "skin_steve": "textures/entity/steve",
+          "skin_alex": "textures/entity/alex",
+        };
+
+        new_render_controllers.render_controllers["controller.render.dummy.cape"].arrays.textures["Array.capes"] = [
+          "Texture.cape_none",
+        ];
+
+        new_render_controllers.render_controllers["controller.render.dummy"].arrays.textures["Array.skins"] = [
+          "Texture.skin_steve",
+          "Texture.skin_alex",
+        ];
+        
+        new_render_controllers.render_controllers["controller.render.locator"].textures = [
+          "Texture.skin_steve",
+        ];
+      }
       
       if (data.hasOwnProperty("skins") && data["skins"]) {
         const skins: [File, string][] = data.skins;
